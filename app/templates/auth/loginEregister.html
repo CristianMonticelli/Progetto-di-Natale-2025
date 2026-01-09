@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body p-5">
+          <h2 class="card-title text-center mb-1">
+            <i class="fas fa-lock"></i> Accedi
+          </h2>
+          <p class="text-center text-muted mb-4">
+            Se hai già un account, accedi. Altrimenti crea uno nuovo.
+          </p>
+          
+          <form method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="username" class="form-label">
+                <i class="fas fa-user"></i> Username
+              </label>
+              <input 
+                type="text" 
+                class="form-control form-control-lg" 
+                name="username" 
+                id="username" 
+                placeholder="Inserisci il tuo username"
+                required
+              >
+            </div>
+
+            <div class="mb-3">
+              <label for="first_name" class="form-label">
+                <i class="fas fa-user"></i> Nome
+              </label>
+              <input 
+                type="text" 
+                class="form-control form-control-lg" 
+                name="first_name" 
+                id="first_name" 
+                placeholder="Inserisci il tuo nome"
+              >
+            </div>
+
+            <div class="mb-3">
+              <label for="last_name" class="form-label">
+                <i class="fas fa-user"></i> Cognome
+              </label>
+              <input 
+                type="text" 
+                class="form-control form-control-lg" 
+                name="last_name" 
+                id="last_name" 
+                placeholder="Inserisci il tuo cognome"
+              >
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">
+                <i class="fas fa-envelope"></i> Email
+              </label>
+              <input 
+                type="email" 
+                class="form-control form-control-lg" 
+                name="email" 
+                id="email" 
+                placeholder="Inserisci la tua email"
+                required
+              >
+            </div>
+
+            <div class="mb-4">
+              <label for="password" class="form-label">
+                <i class="fas fa-key"></i> Password
+              </label>
+              <input 
+                type="password" 
+                class="form-control form-control-lg" 
+                name="password" 
+                id="password" 
+                placeholder="Inserisci la tua password"
+                required
+              >
+            </div>
+
+            <div class="mb-4">
+              <label for="tipo_utente" class="form-label">
+                <i class="fas fa-user-tag"></i> Tipo di Account
+              </label>
+              <select 
+                class="form-control form-control-lg" 
+                name="tipo_utente" 
+                id="tipo_utente"
+                required
+              >
+                <option value="proprietario" selected>
+                  <i class="fas fa-home"></i> Proprietario - Gestisco case e ricevo offerte
+                </option>
+                <option value="offerente">
+                  <i class="fas fa-envelope"></i> Offerente - Invio offerte per case
+                </option>
+              </select>
+              <small class="text-muted d-block mt-2">
+                <strong>Proprietario:</strong> Puoi registrare le tue case e ricevere offerte da interessati.<br>
+                <strong>Offerente:</strong> Puoi inviare offerte per case che ti interessano.
+              </small>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-lg w-100">
+              <i class="fas fa-sign-in-alt"></i> Accedi / Registrati
+            </button>
+          </form>
+          
+          <hr class="my-4">
+          
+          <p class="text-center text-muted small">
+            <i class="fas fa-info-circle"></i>
+            Non sei registrato? Inserisci i dati e creeremo il tuo account automaticamente.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}Commenti Ricevuti{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1><i class="fas fa-comments"></i> Commenti Ricevuti sulle Tue Case</h1>
+  <p class="text-muted">Gestisci i commenti e le valutazioni ricevute dai visitatori</p>
+
+  {% if owner_reviews %}
+    <!-- Statistiche Generali -->
+    <div class="row mb-4">
+      <div class="col-md-4">
+        <div class="card text-center">
+          <div class="card-body">
+            <h6 class="card-title text-muted">Totale Commenti</h6>
+            <p class="display-4">{{ total_reviews }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-center">
+          <div class="card-body">
+            <h6 class="card-title text-muted">Valutazione Media</h6>
+            <p class="display-4">
+              {% if overall_avg %}
+                {{ "%.1f"|format(overall_avg) }}/5 ⭐
+              {% else %}
+                N/A
+              {% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-center">
+          <div class="card-body">
+            <h6 class="card-title text-muted">In Attesa di Risposta</h6>
+            <p class="display-4">{{ pending_responses }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Commenti per Casa -->
+    {% set current_case = None %}
+    {% for review in owner_reviews %}
+      {% if current_case != review['case_id'] %}
+        {% if current_case != None %}
+          </div>
+        {% endif %}
+        {% set case_data = immobili_by_id[review['case_id']] %}
+        <div class="card mb-4">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">
+              <i class="fas fa-home"></i> 
+              {{ case_data['via'] }}, {{ case_data['civico'] }}
+            </h5>
+          </div>
+          <div class="card-body">
+        {% set current_case = review['case_id'] %}
+      {% endif %}
+
+      <!-- Singolo Commento -->
+      <div class="border-bottom pb-3 mb-3">
+        <div class="d-flex justify-content-between align-items-start">
+          <div class="flex-grow-1">
+            <h6 class="mb-1">
+              <strong>{{ review['reviewer_name'] }}</strong>
+              <span class="badge bg-warning">
+                {% for i in range(review['rating']) %}⭐{% endfor %}
+                {{ review['rating'] }}/5
+              </span>
+            </h6>
+            <p class="card-text">{{ review['comment'] }}</p>
+            <small class="text-muted">
+              {% if review['reviewer_email'] %}
+                <i class="fas fa-envelope"></i> {{ review['reviewer_email'] }} •
+              {% endif %}
+              <i class="fas fa-clock"></i> {{ review['created'] }}
+            </small>
+          </div>
+          
+          {% if not review['owner_response'] %}
+            <div class="ms-3">
+              <a href="{{ url_for('main.my_reviews_received', open_review=review['id']) }}" class="btn btn-sm btn-primary">
+                <i class="fas fa-reply"></i> Rispondi
+              </a>
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Risposta Proprietario (se già presente) -->
+        {% if review['owner_response'] %}
+          <div class="alert alert-success mt-2 mb-0">
+            <strong><i class="fas fa-check-circle"></i> Tua Risposta:</strong>
+            <p class="mb-1">{{ review['owner_response'] }}</p>
+            <small class="text-muted">{{ review['owner_response_created'] }}</small>
+          </div>
+        {% else %}
+          <!-- Form Risposta (server-side show/hide) -->
+                <form id="response-form-{{ review['id'] }}" method="post" 
+                  action="{{ url_for('main.respond_to_review', review_id=review['id']) }}"
+                  class="mt-3 {% if open_review_id and open_review_id == review['id'] %}d-block{% else %}d-none{% endif %}">
+            <div class="form-group mb-2">
+              <textarea name="owner_response" class="form-control" rows="3" 
+                        placeholder="Scrivi la tua risposta..." required></textarea>
+            </div>
+            <div class="btn-group" role="group">
+              <button type="submit" class="btn btn-sm btn-primary">
+                <i class="fas fa-paper-plane"></i> Invia Risposta
+              </button>
+                <a href="{{ url_for('main.my_reviews_received') }}" class="btn btn-sm btn-secondary">Annulla</a>
+            </div>
+          </form>
+        {% endif %}
+      </div>
+    {% endfor %}
+          </div>
+        </div>
+  {% else %}
+    <div class="alert alert-info mt-4">
+      <i class="fas fa-info-circle"></i>
+      <strong>Nessun commento ancora!</strong>
+      <p class="mb-0">Quando i visitatori lasceranno commenti sulle tue case, li vedrai qui.</p>
+    </div>
+  {% endif %}
+</div>
+
+{% endblock %}

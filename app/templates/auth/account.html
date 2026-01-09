@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body p-5">
+          <h2 class="card-title text-center mb-4">
+            <i class="fas fa-user-circle"></i> Modifica Profilo
+          </h2>
+          
+          <form method="post" enctype="multipart/form-data">
+            <div class="row">
+              <div class="col-md-4 text-center mb-4">
+                {% if user.get('profile_photo') %}
+                  <img 
+                    src="{{ url_for('uploaded_file', filename=user['profile_photo']) }}" 
+                    alt="Foto Profilo" 
+                    class="rounded-circle img-fluid mb-3" 
+                    style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #3498db;"
+                  >
+                {% else %}
+                  <div 
+                    class="rounded-circle bg-secondary d-inline-flex align-items-center justify-content-center mb-3" 
+                    style="width: 150px; height: 150px;"
+                  >
+                    <i class="fas fa-user fa-4x text-white"></i>
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="col-md-8">
+                <div class="mb-3">
+                  <label for="username" class="form-label">
+                    <i class="fas fa-user"></i> Username
+                  </label>
+                  <input 
+                    type="text" 
+                    class="form-control form-control-lg" 
+                    name="username" 
+                    id="username" 
+                    value="{{ user.get('username', '') }}"
+                    required
+                  >
+                </div>
+
+                <div class="mb-3">
+                  <label for="first_name" class="form-label">
+                    <i class="fas fa-user"></i> Nome
+                  </label>
+                  <input 
+                    type="text" 
+                    class="form-control form-control-lg" 
+                    name="first_name" 
+                    id="first_name" 
+                    value="{{ user.get('first_name', '') }}"
+                  >
+                </div>
+
+                <div class="mb-3">
+                  <label for="last_name" class="form-label">
+                    <i class="fas fa-user"></i> Cognome
+                  </label>
+                  <input 
+                    type="text" 
+                    class="form-control form-control-lg" 
+                    name="last_name" 
+                    id="last_name" 
+                    value="{{ user.get('last_name', '') }}"
+                  >
+                </div>
+
+                <div class="mb-3">
+                  <label for="email" class="form-label">
+                    <i class="fas fa-envelope"></i> Email
+                  </label>
+                  <input 
+                    type="email" 
+                    class="form-control form-control-lg" 
+                    name="email" 
+                    id="email" 
+                    value="{{ user.get('email', '') }}"
+                    required
+                  >
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="mb-3">
+              <label for="profile_photo" class="form-label">
+                <i class="fas fa-image"></i> Cambia Foto Profilo
+              </label>
+              <input 
+                type="file" 
+                class="form-control form-control-lg" 
+                name="profile_photo" 
+                id="profile_photo" 
+                accept="image/*"
+              >
+              <small class="text-muted d-block mt-1">
+                Formati consentiti: PNG, JPG, JPEG, GIF. Lascia vuoto per mantenere l'attuale.
+              </small>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="alert alert-info" role="alert">
+              <i class="fas fa-lock"></i> 
+              <strong>Cambio Password:</strong> Inserisci una nuova password solo se desideri modificarla. Lascia vuoto per mantenerla.
+            </div>
+
+            <div class="mb-4">
+              <label for="password" class="form-label">
+                <i class="fas fa-key"></i> Nuova Password (opzionale)
+              </label>
+              <input 
+                type="password" 
+                class="form-control form-control-lg" 
+                name="password" 
+                id="password" 
+                placeholder="Inserisci la nuova password"
+              >
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+              <a href="{{ url_for('main.index') }}" class="btn btn-secondary btn-lg">
+                <i class="fas fa-times"></i> Annulla
+              </a>
+              <button type="submit" class="btn btn-primary btn-lg">
+                <i class="fas fa-save"></i> Salva Modifiche
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

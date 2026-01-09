@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <div class="card">
+        <div class="card-body p-5">
+          <h2 class="card-title text-center mb-4">
+            <i class="fas fa-star"></i> Le Mie Valutazioni
+          </h2>
+          
+          <p class="text-center text-muted mb-4">
+            Valutazioni che hai lasciato ai proprietari
+          </p>
+
+          {% if reviews %}
+            <div class="reviews-list">
+              {% for review in reviews %}
+                <div class="card mb-3 border-left-success" style="border-left: 4px solid #28a745;">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                      <div>
+                        <h5 class="card-title mb-0">
+                          <i class="fas fa-user-circle"></i> 
+                          {{ review.get('first_name', '') }} {{ review.get('last_name', '') }} 
+                          <span class="text-muted small">({{ review['username'] }})</span>
+                        </h5>
+                        <small class="text-muted">
+                          <i class="fas fa-calendar"></i> 
+                          {% if review['updated'] %}
+                            Aggiornato il {{ review['updated'] }}
+                          {% else %}
+                            Creato il {{ review['created'] }}
+                          {% endif %}
+                        </small>
+                      </div>
+                      <div class="text-end">
+                        <div class="rating-display">
+                          {% for i in range(1, 6) %}
+                            {% if i <= review['rating'] %}
+                              <i class="fas fa-star text-warning"></i>
+                            {% else %}
+                              <i class="far fa-star text-muted"></i>
+                            {% endif %}
+                          {% endfor %}
+                        </div>
+                        <small class="text-muted">{{ review['rating'] }}/5</small>
+                      </div>
+                    </div>
+                    
+                    {% if review.get('comment') %}
+                      <p class="card-text mb-3">
+                        <i class="fas fa-quote-left text-muted"></i>
+                        <em>{{ review['comment'] }}</em>
+                      </p>
+                    {% endif %}
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                      <!-- Deleting reviews disabled: remove delete button -->
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <div class="alert alert-light text-center">
+              <p class="mb-0">Non hai ancora lasciato valutazioni.</p>
+              <p class="mb-0">
+                <a href="{{ url_for('main.index') }}" class="alert-link">Visita la home per valutare i proprietari</a>
+              </p>
+            </div>
+          {% endif %}
+
+          <div class="mt-4">
+            <a href="{{ url_for('main.index') }}" class="btn btn-secondary btn-lg">
+              <i class="fas fa-arrow-left"></i> Torna alla Home
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

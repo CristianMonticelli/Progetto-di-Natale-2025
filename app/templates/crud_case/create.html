@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body p-5">
+          <h1 class="card-title mb-1">
+            <i class="fas fa-plus-circle text-success"></i> Registra una Nuova Proprietà
+          </h1>
+          <p class="text-muted mb-4">Aggiungi una nuova proprietà al gestionale</p>
+          
+          <form method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="via" class="form-label">
+                <i class="fas fa-road"></i> Via
+              </label>
+              <input 
+                type="text" 
+                class="form-control form-control-lg" 
+                name="via" 
+                id="via" 
+                placeholder="Es. Via Roma, Corso Vittorio Emanuele"
+                required
+              >
+            </div>
+
+            <div class="mb-4">
+              <label for="civico" class="form-label">
+                <i class="fas fa-house"></i> Civico
+              </label>
+              <input 
+                type="text" 
+                class="form-control form-control-lg" 
+                name="civico" 
+                id="civico" 
+                placeholder="Es. 42 A, 15 B"
+                required
+              >
+            </div>
+
+            <div class="mb-4">
+              <label for="tipo_annuncio" class="form-label">
+                <i class="fas fa-megaphone"></i> Tipo di Annuncio
+              </label>
+              <select 
+                class="form-control form-control-lg" 
+                name="tipo_annuncio" 
+                id="tipo_annuncio"
+                required
+              >
+                <option value="affitto">In Affitto</option>
+                <option value="vendita">In Vendita</option>
+                <option value="affitto/vendita">Affitto/Vendita</option>
+                <option value="occupata">Occupata (Non Visibile)</option>
+              </select>
+            </div>
+
+            <div class="mb-3" id="price-rent-group" style="display: none;">
+              <label for="price_rent" class="form-label">Prezzo Affitto (€/mese)</label>
+              <input type="number" step="0.01" class="form-control" id="price_rent" name="price_rent" placeholder="Es. 450">
+            </div>
+
+            <div class="mb-3" id="price-sale-group" style="display: none;">
+              <label for="price_sale" class="form-label">Prezzo Vendita (€)</label>
+              <input type="number" step="0.01" class="form-control" id="price_sale" name="price_sale" placeholder="Es. 120000">
+            </div>
+
+            <div class="mb-3">
+              <label for="photo" class="form-label">Foto Principale della Casa</label>
+              <input type="file" class="form-control" id="photo" name="photo" accept="image/*">
+            </div>
+
+            <button type="submit" class="btn btn-success btn-lg w-100">
+              <i class="fas fa-save"></i> Registra Proprietà
+            </button>
+            
+            <a href="{{ url_for('main.index') }}" class="btn btn-secondary btn-lg w-100 mt-2">
+              <i class="fas fa-times"></i> Annulla
+            </a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tipoAnnuncioSelect = document.getElementById('tipo_annuncio');
+    const priceRentGroup = document.getElementById('price-rent-group');
+    const priceSaleGroup = document.getElementById('price-sale-group');
+
+    function updatePriceVisibility() {
+      const value = tipoAnnuncioSelect.value;
+      priceRentGroup.style.display = 'none';
+      priceSaleGroup.style.display = 'none';
+
+      if (value === 'affitto') {
+        priceRentGroup.style.display = 'block';
+      } else if (value === 'vendita') {
+        priceSaleGroup.style.display = 'block';
+      } else if (value === 'affitto/vendita') {
+        priceRentGroup.style.display = 'block';
+        priceSaleGroup.style.display = 'block';
+      }
+    }
+
+    tipoAnnuncioSelect.addEventListener('change', updatePriceVisibility);
+    updatePriceVisibility();
+  </script>
+{% endblock %}

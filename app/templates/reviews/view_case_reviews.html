@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}Commenti Casa{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8">
+      <h1>Commenti su: {{ case['via'] }}, {{ case['civico'] }}</h1>
+
+      <!-- Visualizza Rating Medio -->
+      {% if avg_rating and avg_rating['count'] > 0 %}
+        <div class="alert alert-info">
+          <strong>Valutazione Media:</strong> 
+          <span class="h4">
+            {% for i in range(avg_rating['average']|int) %}⭐{% endfor %}
+            {{ "%.1f"|format(avg_rating['average']) }}/5 
+            <small>({{ avg_rating['count'] }} valutazioni)</small>
+          </span>
+        </div>
+      {% else %}
+        <div class="alert alert-secondary">
+          <em>Nessuna valutazione ancora.</em>
+        </div>
+      {% endif %}
+
+      <!-- Lista Commenti -->
+      <div class="reviews-section mt-4">
+        <h3>Commenti ({{ reviews|length }})</h3>
+        
+        {% if reviews %}
+          {% for review in reviews %}
+            <div class="card mb-3">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <h5 class="card-title">{{ review['reviewer_name'] }}</h5>
+                    <div class="mb-2">
+                      {% for i in range(review['rating']) %}⭐{% endfor %}
+                      <small class="text-muted">({{ review['rating'] }}/5)</small>
+                    </div>
+                    <p class="card-text">{{ review['comment'] }}</p>
+                    <small class="text-muted">
+                      {% if review['reviewer_email'] %}
+                        {{ review['reviewer_email'] }} •
+                      {% endif %}
+                      {{ review['created'] }}
+                    </small>
+                  </div>
+                  
+                  {# Owner can reply only via the response form below. Remove quick 'Rispondi' button to avoid anonymous replies. #}
+
+                  {# Deleting reviews is disabled: no delete button displayed. #}
+                </div>
+
+                <!-- Risposta del Proprietario -->
+                {% if review['owner_response'] %}
+                  <div class="alert alert-success mt-3">
+                    <strong>Risposta del Proprietario:</strong>
+                    <p class="mb-1">{{ review['owner_response'] }}</p>
+                    <small class="text-muted">{{ review['owner_response_created'] }}</small>
+                  </div>
+                {% endif %}
+
+                <!-- Form Risposta (Inline) -->
+                {% if g.user and g.user['id'] == case['author_id'] and not review['owner_response'] %}
+                  <form method="post" 
+                        action="{{ url_for('main.respond_to_review', review_id=review['id']) }}"
+                        class="mt-3">
+                    <div class="form-group">
+                      <textarea name="owner_response" class="form-control" rows="3" 
+                                placeholder="Scrivi la tua risposta..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-primary">Invia Risposta</button>
+                  </form>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p class="text-muted">Ancora nessun commento. Sii il primo a commentare!</p>
+        {% endif %}
+      </div>
+
+      <!-- Form Nuovo Commento (Anonimo) -->
+      {% if g.user is none or g.user.get('tipo_utente') != 'proprietario' or g.user['id'] != case['author_id'] %}
+        <div class="card mt-5 bg-light">
+          <div class="card-body">
+            <h4>Lascia un Commento</h4>
+          <form method="post">
+            <div class="form-group mb-3">
+              <label for="reviewer_name" class="form-label">Il tuo nome *</label>
+              <input type="text" class="form-control" id="reviewer_name" name="reviewer_name" 
+                     placeholder="Come desideri essere chiamato?" required>
+              <small class="text-muted">Il tuo nome sarà visibile pubblicamente</small>
+            </div>
+
+            <div class="form-group mb-3">
+              <label for="reviewer_email" class="form-label">Email (opzionale)</label>
+              <input type="email" class="form-control" id="reviewer_email" name="reviewer_email" 
+                     placeholder="La tua email non sarà condivisa">
+              <small class="text-muted">Lascia vuoto se preferisci rimanere anonimo</small>
+            </div>
+
+            <div class="form-group mb-3">
+              <label for="rating" class="form-label">Valutazione *</label>
+              <select class="form-select" id="rating" name="rating" required>
+                <option value="">-- Seleziona una valutazione --</option>
+                <option value="1">⭐ 1 - Scadente</option>
+                <option value="2">⭐⭐ 2 - Insufficiente</option>
+                <option value="3">⭐⭐⭐ 3 - Buono</option>
+                <option value="4">⭐⭐⭐⭐ 4 - Molto Buono</option>
+                <option value="5">⭐⭐⭐⭐⭐ 5 - Eccellente</option>
+              </select>
+            </div>
+
+            <div class="form-group mb-3">
+              <label for="comment" class="form-label">Commento *</label>
+              <textarea class="form-control" id="comment" name="comment" rows="4" 
+                        placeholder="Condividi la tua esperienza con questa casa..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-paper-plane"></i> Invia Commento
+            </button>
+          </form>
+          </div>
+        </div>
+      {% else %}
+        <div class="alert alert-info mt-5">
+          <i class="fas fa-info-circle"></i>
+          <strong>Sei il proprietario di questa casa</strong><br>
+          Non puoi lasciare commenti anonimi. Puoi solo rispondere ai commenti che ricevi.
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Sidebar Info Casa -->
+    <div class="col-md-4">
+      <div class="card sticky-top" style="top: 20px;">
+        <div class="card-body">
+          <h5 class="card-title">Dettagli Casa</h5>
+          <p>
+            <strong>Indirizzo:</strong> {{ case['via'] }}, {{ case['civico'] }}<br>
+            <strong>Tipo:</strong> {{ case['tipo_annuncio'] }}<br>
+            <strong>Data:</strong> {{ case['created'] }}
+          </p>
+          
+          {% if g.user %}
+            <a href="{{ url_for('main.view_case', case_id=case['id']) }}" class="btn btn-sm btn-outline-primary w-100 mb-2">
+              <i class="fas fa-eye"></i> Visualizza Dettagli
+            </a>
+          {% endif %}
+
+          <hr>
+          <small class="text-muted">
+            <i class="fas fa-shield-alt"></i> 
+            I commenti anonimi sono moderati dal proprietario per garantire la qualità e il rispetto.
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

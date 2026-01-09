@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body p-5">
+                    <h2 class="card-title mb-4">
+                        <i class="fas fa-info-circle text-primary"></i> Chi Siamo
+                    </h2>
+                    
+                    <div class="alert alert-info" role="alert">
+                        <i class="fas fa-graduation-cap"></i>
+                        <strong>Progetto Personale</strong> - Questo è un progetto sviluppato come progetto personale durante le vacanze di Natale 2025.
+                    </div>
+
+                    <p class="lead">
+                        Questo gestionale è stato realizzato dall'autore del repository come esercitazione personale su Flask. Di seguito sono descritte le principali funzionalità implementate.
+                    </p>
+                    
+                    <h4 class="mt-4 mb-3">
+                        <i class="fas fa-star text-warning"></i> Funzionalità
+                    </h4>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <i class="fas fa-check-circle text-success"></i> Registrazione, login e gestione account (upload foto profilo)
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-check-circle text-success"></i> CRUD completo per immobili (crea, modifica, cancella, dettaglio)
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-check-circle text-success"></i> Gestione coinquilini per ogni immobile
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-check-circle text-success"></i> Sistema offerte (invio e risposta proprietario)
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-check-circle text-success"></i> Sistema di commenti anonimi con valutazione 1-5 e risposta proprietario
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-check-circle text-success"></i> Salvataggio foto (profile/case) e visualizzazione nel sito
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-check-circle text-success"></i> Interfaccia responsive (Bootstrap 5) e template Jinja2
+                        </li>
+                    </ul>
+                    
+                    <h4 class="mt-4 mb-3">
+                        <i class="fas fa-code text-danger"></i> Tecnologie Utilizzate
+                    </h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li><strong>Backend:</strong> Python Flask</li>
+                                <li><strong>Database:</strong> SQLite</li>
+                                <li><strong>Autenticazione:</strong> Session-based</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li><strong>Frontend:</strong> Bootstrap 5</li>
+                                <li><strong>Templating:</strong> Jinja2</li>
+                                <li><strong>Icons:</strong> Font Awesome</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <p class="text-muted">
+                        <i class="fas fa-heart text-danger"></i>
+                        Progetto personale sviluppato durante le vacanze di Natale 2025. By <strong>Monticelli Cristian</strong>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

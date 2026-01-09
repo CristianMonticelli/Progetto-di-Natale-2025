@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <h1 class="mb-4"><i class="fas fa-paper-plane"></i> Le Mie Offerte Inviate</h1>
+
+  {% if offerte %}
+    <div class="list-group">
+      {% for offerta in offerte %}
+        <div class="list-group-item mb-3 p-4" style="border-radius: 10px;">
+          <div class="d-flex justify-content-between">
+            <div>
+              <h5>{{ offerta['via'] }}, {{ offerta['civico'] }}</h5>
+              <small class="text-muted">Inviata: {{ offerta['created'][:10] }}</small>
+            </div>
+            <div>
+              {% if offerta['risposta'] %}
+                <span class="badge bg-success">Risposta ricevuta</span>
+              {% else %}
+                <span class="badge bg-secondary">In attesa</span>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="mt-3">
+            <strong>Messaggio inviato:</strong>
+            <p class="mt-2" style="background:#f8f9fa;padding:12px;border-radius:6px">{{ offerta['messaggio'] }}</p>
+          </div>
+
+          {% if offerta['risposta'] %}
+            <div class="mt-3">
+              <strong>Risposta del proprietario:</strong>
+              <div class="d-flex align-items-start mt-2">
+                {% if offerta.owner_profile %}
+                  <img src="{{ url_for('uploaded_file', filename=offerta.owner_profile) }}" alt="Proprietario" class="rounded-circle me-2" width="48" height="48">
+                {% else %}
+                  <i class="fas fa-user-circle me-2" style="font-size: 1.5rem;"></i>
+                {% endif %}
+                <div>
+                  <p style="background:#e9f7ef;padding:12px;border-radius:6px;margin-bottom:6px">{{ offerta['risposta'] }}</p>
+                  <small class="text-muted">Ricevuta: {{ offerta['risposta_created'][:19] }}</small>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-info">Non hai inviato ancora offerte.</div>
+  {% endif %}
+
+  <div class="mt-4">
+    <a href="{{ url_for('main.index') }}" class="btn btn-secondary">Torna alla Home</a>
+  </div>
+</div>
+{% endblock %}

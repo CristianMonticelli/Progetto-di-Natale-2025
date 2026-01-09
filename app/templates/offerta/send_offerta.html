@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-lg border-0">
+        <div class="card-header bg-primary text-white">
+          <h2 class="mb-0">
+            <i class="fas fa-envelope"></i> Invia un'Offerta
+          </h2>
+        </div>
+        
+        <div class="card-body p-5">
+          <div class="alert alert-info mb-4">
+            <i class="fas fa-info-circle"></i> 
+            <strong>Casa:</strong> {{ case['via'] }}, {{ case['civico'] }} - {{ case['stato'] or 'Non specificato' }}
+          </div>
+
+          <form method="post" class="needs-validation" novalidate>
+            <div class="mb-3">
+              <label class="form-label"><i class="fas fa-user"></i> Account</label>
+              <div class="p-3 border rounded bg-light">
+                <div><strong>Utente:</strong> {{ g.user['username'] }}</div>
+                <div><strong>Email:</strong> {{ g.user['email'] }}</div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label for="numero_telefono" class="form-label">
+                <i class="fas fa-phone"></i> Numero Telefono (opzionale)
+              </label>
+              <input
+                type="tel"
+                class="form-control form-control-lg"
+                id="numero_telefono"
+                name="numero_telefono"
+                placeholder="+39 123 456 7890"
+                value="{{ request.form.get('numero_telefono') or '' }}"
+              >
+            </div>
+
+            <div class="mb-4">
+              <label for="messaggio" class="form-label">
+                <i class="fas fa-message"></i> Messaggio *
+              </label>
+              <textarea
+                class="form-control form-control-lg"
+                id="messaggio"
+                name="messaggio"
+                rows="6"
+                placeholder="Scrivi il tuo messaggio o la tua offerta..."
+                required
+              >{{ request.form.get('messaggio') or '' }}</textarea>
+              <small class="text-muted">Descrivi la tua offerta, il tuo interesse, o qualsiasi dettaglio importante.</small>
+            </div>
+
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-primary btn-lg flex-grow-1">
+                <i class="fas fa-paper-plane"></i> Invia Offerta
+              </button>
+              <a href="{{ url_for('main.index') }}" class="btn btn-secondary btn-lg">
+                <i class="fas fa-times"></i> Annulla
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .card {
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .form-control, .form-control-lg {
+    border-radius: 8px;
+    border: 2px solid #e0e0e0;
+  }
+  
+  .form-control:focus, .form-control-lg:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+  
+  .btn-primary {
+    border-radius: 8px;
+  }
+</style>
+{% endblock %}

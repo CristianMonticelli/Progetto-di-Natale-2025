@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body p-5">
+          <h1 class="card-title mb-1">
+            <i class="fas fa-edit text-primary"></i> Modifica Coinquilino
+          </h1>
+          <p class="text-muted mb-4">Aggiorna i dati del coinquilino</p>
+          
+          <form method="post">
+            <div class="mb-3">
+              <label for="nome" class="form-label">
+                <i class="fas fa-user"></i> Nome
+              </label>
+              <input 
+                type="text" 
+                class="form-control form-control-lg" 
+                name="nome" 
+                id="nome" 
+                value="{{ request.form.get('nome') or coinquilino['nome'] }}"
+                required
+              >
+            </div>
+
+            <div class="mb-3">
+              <label for="cognome" class="form-label">
+                <i class="fas fa-user"></i> Cognome
+              </label>
+              <input 
+                type="text" 
+                class="form-control form-control-lg" 
+                name="cognome" 
+                id="cognome" 
+                value="{{ request.form.get('cognome') or coinquilino['cognome'] }}"
+                required
+              >
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">
+                <i class="fas fa-envelope"></i> Email
+              </label>
+              <input 
+                type="email" 
+                class="form-control form-control-lg" 
+                name="email" 
+                id="email" 
+                value="{{ request.form.get('email') or coinquilino['email'] }}"
+                required
+              >
+            </div>
+
+            <div class="mb-3">
+              <label for="eta" class="form-label">
+                <i class="fas fa-birthday-cake"></i> Età
+              </label>
+              <input 
+                type="number" 
+                class="form-control form-control-lg" 
+                name="eta" 
+                id="eta" 
+                value="{{ request.form.get('eta') or coinquilino.get('eta') or '' }}"
+                min="18"
+                max="150"
+              >
+            </div>
+
+            <div class="mb-4">
+              <label for="numero_persone" class="form-label">
+                <i class="fas fa-people-group"></i> Numero di Persone
+              </label>
+              <input 
+                type="number" 
+                class="form-control form-control-lg" 
+                name="numero_persone" 
+                id="numero_persone" 
+                value="{{ request.form.get('numero_persone') or coinquilino.get('numero_persone') or '' }}"
+                min="1"
+              >
+            </div>
+
+            <div class="mb-3">
+              <label for="importo" class="form-label">
+                <i class="fas fa-euro-sign"></i> Importo mensile (€)
+              </label>
+              <input
+                type="number"
+                step="0.01"
+                min="0"
+                class="form-control form-control-lg"
+                name="importo"
+                id="importo"
+                value="{{ request.form.get('importo') or coinquilino.get('importo') or '' }}"
+                required
+              >
+            </div>
+
+            <div class="mb-3">
+              <label for="giorno" class="form-label">
+                <i class="fas fa-calendar-day"></i> Giorno del mese (1-28)
+              </label>
+              <input
+                type="number"
+                min="1"
+                max="28"
+                class="form-control form-control-lg"
+                name="giorno"
+                id="giorno"
+                value="{{ request.form.get('giorno') or coinquilino.get('giorno') or '' }}"
+                required
+              >
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg w-100">
+              <i class="fas fa-save"></i> Salva Modifiche
+            </button>
+            
+            <a href="{{ url_for('main.view_case', case_id=coinquilino['immobile_id']) }}" class="btn btn-secondary btn-lg w-100 mt-2">
+              <i class="fas fa-times"></i> Annulla
+            </a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

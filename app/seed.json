@@ -1,0 +1,46 @@
+{
+  "users": [
+    {
+      "username": "bob",
+      "email": "bob@example.com",
+      "password": "password123",
+      "first_name": "Bob",
+      "last_name": "Rossi",
+      "tipo_utente": "proprietario"
+    }
+  ],
+  "immobili": [
+    {
+      "author_username": "bob",
+      "via": "Corso Italia",
+      "civico": "5",
+      "tipo_annuncio": "affitto"
+    }
+  ],
+  "reviews": [
+    {
+      "case_via": "Corso Italia",
+      "case_civico": "5",
+      "reviewer_name": "Marco Verdi",
+      "reviewer_email": "marco@example.com",
+      "rating": 5,
+      "comment": "Casa bellissima, pulitissima e ben arredata. Proprietario molto disponibile e gentile. Tornerò volentieri!"
+    },
+    {
+      "case_via": "Corso Italia",
+      "case_civico": "5",
+      "reviewer_name": "Giulia",
+      "reviewer_email": null,
+      "rating": 4,
+      "comment": "Buona esperienza complessiva. L'unica cosa è che il riscaldamento potrebbe essere migliore in inverno."
+    },
+    {
+      "case_via": "Corso Italia",
+      "case_civico": "5",
+      "reviewer_name": "Alessandro",
+      "reviewer_email": "alex@mail.it",
+      "rating": 5,
+      "comment": "Perfetto! Tutto come descritto e facilmente raggiungibile con i mezzi pubblici."
+    }
+  ]
+}
