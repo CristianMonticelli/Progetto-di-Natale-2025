@@ -97,8 +97,7 @@ def logout():
     session.clear()
     return redirect(url_for('main.index'))
 
-# La route `/login` era una duplicazione di `loginEregister()` che gestisce
-# sia registrazione che login in un unico endpoint. Rimossa per evitare confusione.
+
 
 
 @bp.route('/account', methods=('GET', 'POST'))

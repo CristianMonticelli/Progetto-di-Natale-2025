@@ -69,6 +69,5 @@ def create_app():
             abort(404)
         return send_from_directory(upload_folder, filename)
 
-    # Nota: rimosso lo scheduler per l'invio email automatico
 
     return app

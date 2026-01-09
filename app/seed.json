@@ -2,10 +2,18 @@
   "users": [
     {
       "username": "bob",
-      "email": "bob@example.com",
-      "password": "password123",
-      "first_name": "Bob",
+      "email": "bob.rossi@example.com",
+      "password": "bob2026!",
+      "first_name": "Roberto",
       "last_name": "Rossi",
+      "tipo_utente": "proprietario"
+    },
+    {
+      "username": "luca",
+      "email": "luca@esempio.it",
+      "password": "ilovepizza",
+      "first_name": "Luca",
+      "last_name": "Neri",
       "tipo_utente": "proprietario"
     }
   ],
@@ -15,6 +23,12 @@
       "via": "Corso Italia",
       "civico": "5",
       "tipo_annuncio": "affitto"
+    },
+    {
+      "author_username": "luca",
+      "via": "Via Garibaldi",
+      "civico": "12",
+      "tipo_annuncio": "vendita"
     }
   ],
   "reviews": [
@@ -24,23 +38,23 @@
       "reviewer_name": "Marco Verdi",
       "reviewer_email": "marco@example.com",
       "rating": 5,
-      "comment": "Casa bellissima, pulitissima e ben arredata. Proprietario molto disponibile e gentile. Tornerò volentieri!"
+      "comment": "Casa bellissima, pulita e ben arredata. Proprietario disponibile."
     },
     {
-      "case_via": "Corso Italia",
-      "case_civico": "5",
-      "reviewer_name": "Giulia",
-      "reviewer_email": null,
-      "rating": 4,
-      "comment": "Buona esperienza complessiva. L'unica cosa è che il riscaldamento potrebbe essere migliore in inverno."
-    },
-    {
-      "case_via": "Corso Italia",
-      "case_civico": "5",
+      "case_via": "Via Garibaldi",
+      "case_civico": "12",
       "reviewer_name": "Alessandro",
       "reviewer_email": "alex@mail.it",
       "rating": 5,
-      "comment": "Perfetto! Tutto come descritto e facilmente raggiungibile con i mezzi pubblici."
+      "comment": "Perfetto: descrizione accurata e ottimi collegamenti con i mezzi."
+    },
+    {
+      "case_via": "Via Garibaldi",
+      "case_civico": "12",
+      "reviewer_name": "Sara",
+      "reviewer_email": "sara@mail.it",
+      "rating": 3,
+      "comment": "Appartamento carino ma necessita di piccoli interventi di manutenzione."
     }
   ]
 }
